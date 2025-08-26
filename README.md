@@ -7,3 +7,12 @@
 
 ___
 ### Configurações:
+
+
+___
+### Mapa de Habilidades:
+|        | Documentação| Front-end | Back-end |
+|--------|-------------|-----------|----------|
+| Amanda |             |           |          |
+| José   |             |           |          |
+| Wadson |             |           |          |
