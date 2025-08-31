@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from database import engine, Base
-from routers import comodos, dispositivos
+from routers import comodos, dispositivos, cenas, acoes
 
 app = FastAPI(title="Domótica – Pacote 1")
 
@@ -10,6 +10,8 @@ def on_startup():
 
 app.include_router(comodos.router)
 app.include_router(dispositivos.router)
+app.include_router(cenas.router)
+app.include_router(acoes.router)
 
 @app.get("/")
 def home():

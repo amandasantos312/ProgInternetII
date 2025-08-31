@@ -1,8 +1,10 @@
 from sqlalchemy import Column, Integer, String, Boolean, Table, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Mapped, mapped_column
+from typing import List
+
 from database import Base
 
-# Associação N:N entre comodos e dispositivos
+# Tabela de associação entre Comodo e Dispositivo
 comodo_dispositivo = Table(
     "comodo_dispositivo",
     Base.metadata,
@@ -10,11 +12,39 @@ comodo_dispositivo = Table(
     Column("dispositivo_id", Integer, ForeignKey("dispositivos.id", ondelete="CASCADE"), primary_key=True),
 )
 
+# Tabela de associação entre Cena e Acao
+cena_acoes = Table(
+    "cena_acoes",
+    Base.metadata,
+    Column("cena_id", Integer, ForeignKey("cenas.id", ondelete="CASCADE"), primary_key=True),
+    Column("acao_id", Integer, ForeignKey("acoes.id", ondelete="CASCADE"), primary_key=True),
+)
+
+# Modelos (Classes)
+
+class Dispositivo(Base):
+    __tablename__ = "dispositivos"
+
+    id = Column(Integer, primary_key=True, index=True)
+    nome = Column(String, nullable=False)
+    tipo = Column(String, nullable=False)
+    estado = Column(Boolean, nullable=False, default=False)
+    
+    # Relação com Comodo (Many-to-Many)
+    comodos = relationship(
+        "Comodo",
+        secondary=comodo_dispositivo,
+        back_populates="dispositivos",
+        passive_deletes=True,
+    )
+
 class Comodo(Base):
     __tablename__ = "comodos"
+
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String, nullable=False, unique=True)
-
+    
+    # Relação com Dispositivo (Many-to-Many)
     dispositivos = relationship(
         "Dispositivo",
         secondary=comodo_dispositivo,
@@ -22,16 +52,34 @@ class Comodo(Base):
         passive_deletes=True,
     )
 
-class Dispositivo(Base):
-    __tablename__ = "dispositivos"
-    id = Column(Integer, primary_key=True, index=True)
-    nome = Column(String, nullable=False)
-    tipo = Column(String, nullable=False)
-    estado = Column(Boolean, nullable=False, default=False)
+class Acao(Base):
+    __tablename__ = "acoes"
 
-    comodos = relationship(
-        "Comodo",
-        secondary=comodo_dispositivo,
-        back_populates="dispositivos",
-        passive_deletes=True,
+    id = Column(Integer, primary_key=True, index=True)
+    descricao = Column(String, nullable=False)
+    dispositivo_id = Column(Integer, ForeignKey("dispositivos.id", ondelete="CASCADE"))
+
+    # Relação com Dispositivo (Many-to-One)
+    dispositivo = relationship("Dispositivo")
+    
+    # Relação com Cena (Many-to-Many)
+    cenas = relationship(
+        "Cena",
+        secondary=cena_acoes,
+        back_populates="acoes",
+    )
+
+class Cena(Base):
+    __tablename__ = "cenas"
+
+    id = Column(Integer, primary_key=True, index=True)
+    nome = Column(String, nullable=False, unique=True)
+    palavra_chave = Column(String, nullable=True)   # ← adiciona aqui
+    estado = Column(String, default="inativa")
+
+    # Relação com Acao (Many-to-Many)
+    acoes = relationship(
+        "Acao",
+        secondary=cena_acoes,
+        back_populates="cenas",
     )
