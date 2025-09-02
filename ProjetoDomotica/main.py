@@ -1,9 +1,10 @@
 from fastapi import FastAPI
-from database import engine, Base
-from routers import comodos, dispositivos, cenas, acoes
+from ProjetoDomotica.database.database import engine, Base
+from ProjetoDomotica.routers import comodos, dispositivos, cenas, acoes
 
 app = FastAPI(title="Domótica – Pacote 1")
 
+# .onevent() está datada
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(bind=engine)

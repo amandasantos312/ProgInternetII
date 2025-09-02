@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from database import get_db
-from models import Dispositivo, Comodo
-from schemas import DispositivoCreate, DispositivoOut, DispositivoUpdate
+from ProjetoDomotica.database.database import get_db
+from ProjetoDomotica.model.models import Dispositivo, Comodo
+from ProjetoDomotica.database.schemas import DispositivoCreate, DispositivoOut, DispositivoUpdate
+
 
 router = APIRouter(prefix="/dispositivos", tags=["Dispositivos"])
 
@@ -24,7 +25,6 @@ def criar_dispositivo(payload: DispositivoCreate, db: Session = Depends(get_db))
     db.commit()
     db.refresh(d)
     return d
-
 
 @router.get("/", response_model=list[DispositivoOut])
 def listar_dispositivos(

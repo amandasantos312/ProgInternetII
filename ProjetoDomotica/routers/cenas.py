@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db
-from models import Cena, Acao
-from schemas import CenaCreate, CenaOut
+from ProjetoDomotica.database.database import get_db
+from ProjetoDomotica.model.models import Cena, Acao
+from ProjetoDomotica.database.schemas import CenaCreate, CenaOut
 from typing import List
+
 
 router = APIRouter(prefix="/cenas", tags=["Cenas"])
 

@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, Table, ForeignKey
-from sqlalchemy.orm import relationship, Mapped, mapped_column
-from typing import List
+from sqlalchemy.orm import relationship, mapped_column
+from ProjetoDomotica.database.database import Base
 
-from database import Base
 
 # Tabela de associação entre Comodo e Dispositivo
 comodo_dispositivo = Table(
@@ -21,7 +20,6 @@ cena_acoes = Table(
 )
 
 # Modelos (Classes)
-
 class Dispositivo(Base):
     __tablename__ = "dispositivos"
 

@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
-# ---------- Cômodo ----------
+
+# --- Cômodo ---
 class ComodoBase(BaseModel):
     nome: str
 
@@ -14,7 +15,7 @@ class ComodoOut(ComodoBase):
         orm_mode = True
 
 
-# ---------- Dispositivo ----------
+# --- Dispositivo ---
 class DispositivoBase(BaseModel):
     nome: str
     tipo: str

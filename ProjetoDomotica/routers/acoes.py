@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from database import get_db
-from models import Acao, Dispositivo
-from schemas import AcaoCreate, AcaoOut, AcaoUpdate
+from ProjetoDomotica.database.database import get_db
+from ProjetoDomotica.model.models import Acao, Dispositivo
+from ProjetoDomotica.database.schemas import AcaoCreate, AcaoOut, AcaoUpdate
 from typing import List
+
 
 router = APIRouter(prefix="/acoes", tags=["Ações"])
 
