@@ -1,19 +1,26 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from ProjetoDomotica.database.database import engine, Base
 from ProjetoDomotica.routers import comodos, dispositivos, cenas, acoes
 
+
 app = FastAPI(title="Domótica – Pacote 1")
 
-# .onevent() está datada
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+templates = Jinja2Templates(directory="templates")
+
 @app.on_event("startup")
-def on_startup():
+def startup():
     Base.metadata.create_all(bind=engine)
 
 app.include_router(comodos.router)
 app.include_router(dispositivos.router)
-app.include_router(cenas.router)
 app.include_router(acoes.router)
+app.include_router(cenas.router)
 
-@app.get("/")
-def home():
-    return {"status": "ok", "msg": "API no ar"}
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})

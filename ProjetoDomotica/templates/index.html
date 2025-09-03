@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> ProjetoDomotica </title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+	<section aria-labelledby="sec-comodo-title">
+	<h2 id="sec-comodo-title">1. Cadastrar Cômodo</h2>
+	<form id="form-comodo" action="/comodos" method="post" aria-label="Formulário de cadastro de cômodo">
+		<fieldset>
+		<legend>Dados do cômodo</legend>
+		<label for="comodo-nome">Nome do cômodo:</label>
+		<input type="text" id="comodo-nome" name="nome" required aria-required="true">
+		</fieldset>
+		<button type="submit">Cadastrar Cômodo</button>
+	</form>
+	</section>
+
+	<hr>
+
+	<section aria-labelledby="sec-dispositivo-title">
+	<h2 id="sec-dispositivo-title">2. Cadastrar Dispositivo</h2>
+	<form id="form-dispositivo" action="/dispositivos" method="post" aria-label="Formulário de cadastro de dispositivo">
+		<fieldset>
+		<legend>Dados do dispositivo</legend>
+
+		<label for="dispositivo-nome">Nome do dispositivo:</label>
+		<input type="text" id="dispositivo-nome" name="nome" required aria-required="true">
+
+		<label for="dispositivo-tipo">Tipo:</label>
+		<select id="dispositivo-tipo" name="tipo" required aria-required="true">
+			<option value="">— selecione —</option>
+			<option value="lampada">Lâmpada</option>
+			<option value="sensor">Sensor</option>
+			<option value="tomada">Tomada</option>
+			<option value="outro">Outro</option>
+		</select>
+
+		<label for="dispositivo-comodo">Cômodo:</label>
+		<select id="dispositivo-comodo" name="comodo_id" required aria-required="true">
+			<option value="">— selecione um cômodo —</option>
+			<!-- Opções geradas pelo backend -->
+		</select>
+		</fieldset>
+		<button type="submit">Cadastrar Dispositivo</button>
+	</form>
+	</section>
+
+	<hr>
+
+	<section aria-labelledby="sec-cena-title">
+	<h2 id="sec-cena-title">3. Cadastrar Cena</h2>
+	<form id="form-cena" action="/cenas" method="post" aria-label="Formulário de cadastro de cena">
+		<fieldset>
+		<legend>Dados da cena</legend>
+
+		<label for="cena-nome">Nome da cena:</label>
+		<input type="text" id="cena-nome" name="nome" required aria-required="true">
+
+		<label for="cena-palavra-chave">Palavra-chave:</label>
+		<input type="text" id="cena-palavra-chave" name="palavra_chave">
+		</fieldset>
+
+		<fieldset id="acoes-container">
+		<legend>Ações</legend>
+
+		<div class="acao" role="group" aria-labelledby="acao-1">
+			<h3 id="acao-1">Ação 1</h3>
+
+			<label for="acao-descricao-1">Descrição:</label>
+			<input type="text" id="acao-descricao-1" name="acoes[0].descricao" required aria-required="true">
+
+			<label for="acao-horario-1">Horário:</label>
+			<input type="time" id="acao-horario-1" name="acoes[0].horario">
+
+			<label for="acao-dispositivos-1">Dispositivos:</label>
+			<select id="acao-dispositivos-1" name="acoes[0].dispositivo_ids" multiple required aria-describedby="acao-dispositivos-help-1">
+			<!-- Opções geradas pelo backend -->
+			</select>
+			<p id="acao-dispositivos-help-1" class="visually-hidden">
+			Segure Ctrl (Windows) ou Command (Mac) para selecionar vários.
+			</p>
+		</div>
+		</fieldset>
+
+		<button type="button" id="add-acao">+ Adicionar ação</button>
+		<button type="submit">Salvar Cena</button>
+	</form>
+	</section>
+
+<script>
+	let acaoIndex = 1;
+	document.getElementById("add-acao").addEventListener("click", () => {
+		const container = document.getElementById("acoes-container");
+		const template = document.querySelector(".acao");
+		const clone = template.cloneNode(true);
+
+		clone.querySelector("h3").id = `acao-${acaoIndex}`;
+		clone.querySelector("h3").textContent = `Ação ${acaoIndex + 1}`;
+
+		clone.querySelector("[name^='acoes[0].descricao']").name = `acoes[${acaoIndex}].descricao`;
+		clone.querySelector("[name^='acoes[0].horario']").name = `acoes[${acaoIndex}].horario`;
+		clone.querySelector("[name^='acoes[0].dispositivo_ids']").name = `acoes[${acaoIndex}].dispositivo_ids`;
+
+		container.appendChild(clone);
+		acaoIndex++;
+	});
+</script>
+</body>
+</html>

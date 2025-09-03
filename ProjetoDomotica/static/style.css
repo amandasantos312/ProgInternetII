@@ -1,0 +1,108 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --primary-color: #005a9c;
+  --border-color: #333333;
+  --focus-color: #ffa500;
+  --font-size: 20px;
+  --line-height: 1.8;
+  --spacing: 1.5rem;
+  --control-height: 3rem;
+}
+
+body {
+  margin: 0 auto;
+  padding: var(--spacing) ;
+  max-width: 800px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--primary-color);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+section {
+  margin-bottom: calc(var(--spacing) * 1.5);
+}
+
+hr {
+  border: none;
+  border-top: 2px solid var(--border-color);
+  margin: var(--spacing) 0;
+}
+
+fieldset {
+  margin: 0 0 var(--spacing) 0;
+  border: none;
+  padding: 0;
+}
+
+legend {
+  font-size: 1.5em;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="time"],
+select,
+button {
+  width: 100%;
+  min-height: var(--control-height);
+  padding: 0.75rem;
+  margin-bottom: var(--spacing);
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+
+button {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #00457a;
+}
+
+input:focus,
+select:focus,
+button:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(255, 165, 0, 0.7);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
