@@ -5,7 +5,6 @@ from fastapi.staticfiles import StaticFiles
 from ProjetoDomotica.database.database import engine, Base
 from ProjetoDomotica.routers import comodos, dispositivos, cenas, acoes
 
-
 app = FastAPI(title="Domótica – Pacote 1")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")

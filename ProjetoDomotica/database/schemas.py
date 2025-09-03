@@ -56,10 +56,6 @@ class AcaoUpdate(BaseModel):
     dispositivo_id: Optional[int] = None
 
 
-class AcaoOut(AcaoBase):
-    id: int
-    model_config = ConfigDict(from_attributes=True)
-
 
 class CenaBase(BaseModel):
     nome: str
@@ -79,5 +75,6 @@ class CenaUpdate(BaseModel):
 
 class CenaOut(CenaBase):
     id: int
-    acoes: List[AcaoOut] = Field(default_factory=list)
-    model_config = ConfigDict(from_attributes=True)
+    acoes: List[AcaoOut] = []
+    class Config:
+        orm_mode = True
