@@ -56,6 +56,10 @@ class AcaoUpdate(BaseModel):
     dispositivo_id: Optional[int] = None
 
 
+class AcaoOut(AcaoBase):
+    id: int
+    model_config = ConfigDict(from_attributes=True)
+
 
 class CenaBase(BaseModel):
     nome: str
@@ -75,6 +79,6 @@ class CenaUpdate(BaseModel):
 
 class CenaOut(CenaBase):
     id: int
-    acoes: List[AcaoOut] = []
+    acoes: List[AcaoOut] = []   # ← aqui aparecem as ações vinculadas
     class Config:
         orm_mode = True
