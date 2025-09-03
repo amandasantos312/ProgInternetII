@@ -54,22 +54,19 @@ def atualizar_dispositivo(dispositivo_id: int, payload: DispositivoUpdate, db: S
     d = db.get(Dispositivo, dispositivo_id)
     if not d:
         raise HTTPException(404, "Dispositivo não encontrado.")
-    
-    
-    data = payload.dict(exclude={"comodo_ids", "nome", "tipo", "estado"}, exclude_unset=True)
-    for k, v in data.items():
-        setattr(d, k, v)
 
+    update_data = payload.dict(exclude_unset=True)
 
-    if payload.comodo_ids is not None:
-        ids_unicos = list(set(payload.comodo_ids))
-        novos_comodos = db.query(Comodo).filter(Comodo.id.in_(ids_unicos)).all()
-        
-        if len(novos_comodos) != len(ids_unicos):
-            raise HTTPException(status_code=400, detail="Um ou mais cômodos não existem.")
+    for key, value in update_data.items():
+        if key == "comodo_ids" and value is not None:
+            ids_unicos = list(set(value))
+            novos_comodos = db.query(Comodo).filter(Comodo.id.in_(ids_unicos)).all()
+            if len(novos_comodos) != len(ids_unicos):
+                raise HTTPException(status_code=400, detail="Um ou mais cômodos não existem.")
+            d.comodos = novos_comodos
+        else:
+            setattr(d, key, value)
             
-        d.comodos = novos_comodos 
-
     db.commit()
     db.refresh(d)
     return d

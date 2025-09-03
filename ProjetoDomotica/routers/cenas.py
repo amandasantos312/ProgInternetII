@@ -11,6 +11,10 @@ router = APIRouter(prefix="/cenas", tags=["Cenas"])
 # Criar cena
 @router.post("/", response_model=CenaOut, status_code=201)
 def criar_cena(payload: CenaCreate, db: Session = Depends(get_db)):
+    existente = db.query(Cena).filter(Cena.nome == payload.nome).first()
+    if existente:
+        raise HTTPException(status_code=400, detail="Já existe uma cena com esse nome.")
+    
     cena = Cena(**payload.dict())
     db.add(cena)
     db.commit()

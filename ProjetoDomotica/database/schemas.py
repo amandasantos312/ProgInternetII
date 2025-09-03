@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 
-# --- Cômodo ---
+
 class ComodoBase(BaseModel):
     nome: str
 
@@ -15,7 +15,7 @@ class ComodoOut(ComodoBase):
         orm_mode = True
 
 
-# --- Dispositivo ---
+
 class DispositivoBase(BaseModel):
     nome: str
     tipo: str
@@ -36,7 +36,7 @@ class DispositivoOut(DispositivoBase):
         orm_mode = True
 
 
-# --- Ação ---
+
 class AcaoBase(BaseModel):
     descricao: str
     dispositivo_id: int
@@ -54,7 +54,7 @@ class AcaoUpdate(BaseModel):
     dispositivo_id: Optional[int] = None
 
 
-# --- Cena ---
+
 class CenaBase(BaseModel):
     nome: str
     palavra_chave: Optional[str] = Field(None, alias="palavra_chave")
@@ -65,6 +65,6 @@ class CenaCreate(CenaBase):
 
 class CenaOut(CenaBase):
     id: int
-    acoes: List[AcaoOut] = []   # ← aqui aparecem as ações vinculadas
+    acoes: List[AcaoOut] = []
     class Config:
         orm_mode = True
